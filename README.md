@@ -1,2 +1,3 @@
 # CTF_Code
-a
+
+In this repo I store the code/scripts I use to solve CTF challenges

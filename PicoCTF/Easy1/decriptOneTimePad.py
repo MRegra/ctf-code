@@ -12,3 +12,6 @@ for i in range(length_text):
 	elif((ord(encrypted_flag[i])-ord(key[i])) < 0):
 		print(chr(ord(encrypted_flag[i])-ord(key[i])+91), end='')	
 print()
+
+
+

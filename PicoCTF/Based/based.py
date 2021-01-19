@@ -19,14 +19,17 @@ def hexToASCII():
     hex_input = input("What is the decimal input to convert: ")
     print(bytes.fromhex(hex_input).decode('utf-8'))
 
-def main():
+def mainMenuDisplay():
     print("Welcome to the Based challenge script")
     print("Menu: ")
     print("1 - From binary to ASCII")
     print("2 - From octal to ASCII")
     print("3 - From hexadecimal to ASCII")
     print("0 - Exit")
-    option = input("CHoose one option: ")
+
+def main():
+    mainMenuDisplay()
+    option = input("Choose one option: ")
     while(option != "0"):
         if(option == "1"):
             binaryToASCII()
@@ -40,7 +43,8 @@ def main():
         else:
             print("Something went wrong, bie")
             break
-        option = input("Choose one option: ")    
+        mainMenuDisplay()
+        option = input("Choose one option: ")
 
 if __name__ == "__main__":
     main()

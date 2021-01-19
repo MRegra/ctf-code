@@ -4,7 +4,6 @@ def binaryToASCII():
     binary_input = input("What is the binary input to convert: ")
     splittedInputToIgnoreSpaces = ''.join(binary_input.split(' '))
     n = int(splittedInputToIgnoreSpaces, 2)
-    binascii.unhexlify('%x' % n)
     print(binascii.unhexlify('%x' % n))
 
 def eightBaseToASCII():

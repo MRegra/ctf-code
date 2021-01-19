@@ -38,10 +38,10 @@ def main():
         elif(option == "3"):
             hexToASCII()    
         elif(option == "0"):
-            print("Bie bie")
+            print("Bye bye")
             break
         else:
-            print("Something went wrong, bie")
+            print("Something went wrong, bye")
             break
         mainMenuDisplay()
         option = input("Choose one option: ")

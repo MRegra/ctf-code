@@ -48,6 +48,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-#picoCTF{learning_about_converting_values_b375bb16}

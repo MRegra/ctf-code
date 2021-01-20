@@ -16,6 +16,3 @@ def checkPassword(password):
     print(''.join(buffer))
 
 checkPassword("jU5t_a_sna_3lpm12g94c_u_4_m7ra41")    
-
-#picoCTF{jU5t_a_s1mpl3_an4gr4m_4_u_c79a21}
-

@@ -15,4 +15,4 @@ def checkPassword(password):
         buffer[i] = password[i] 
     print(''.join(buffer))
 
-checkPassword("jU5t_a_sna_3lpm12g94c_u_4_m7ra41")    
+checkPassword("jU5t_a_sna_3lpm12g94c_u_4_m7ra41")

@@ -1,3 +1,4 @@
+#This function reverse engineers the code.
 def crackPassowrd():
     myBytes = [106, 85, 53, 116, 95, 52, 95, 98,
                0x55, 0x6e, 0x43, 0x68, 0x5f, 0x30, 0x66, 0x5f,
@@ -15,9 +16,11 @@ def crackPassowrd():
             newMyBytes.append(val)
     return newMyBytes
 
+#This function constructs the flag based on the crackPassword function
 def getFlag(newMyBytes):
     res = "picoCTF{"
     for i in newMyBytes:
         res += i
     return res + "}"
+
 print(getFlag(crackPassowrd()))

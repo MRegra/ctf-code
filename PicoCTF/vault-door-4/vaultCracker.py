@@ -11,7 +11,7 @@ def crackPassowrd():
         elif(str(val).startswith('0x')):
             newMyBytes.append(bytes.fromhex(val).decode('utf-8'))
         elif(str(val).startswith('0o')):
-            newMyBytes.append(val)    
+            newMyBytes.append(chr(val))
         elif(isinstance(val, str)):
             newMyBytes.append(val)
     return newMyBytes

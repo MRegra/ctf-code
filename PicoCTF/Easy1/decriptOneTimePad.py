@@ -1,9 +1,3 @@
-alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-key = "SOLVECRYPTO"
-
-encrypted_flag = "UFJKXQZQUNB"
-
 length_text = len(encrypted_flag)
 
 for i in range(length_text):

@@ -8,8 +8,8 @@ long get_random(){
 
 int main(){
 	int i = 0;
-	while(i < 100){
-		printf("%d\n",get_random());
+	while(i < 10){
+		printf("%d\n",get_random()+1);
 		i++;
 	}
 	return 0;

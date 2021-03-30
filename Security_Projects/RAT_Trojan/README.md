@@ -10,8 +10,8 @@ This will generate everything and allow you to run the script.cmd.
 
 If you just want to test on a local machine and do not need to generate the .exe, you can simply run on one terminal:
 
-  python3 server.py
+    python3 server.py
   
 And on another terminal:
 
-  python3 client.py
+    python3 client.py

@@ -1,13 +1,12 @@
 import socket
-import os
 import subprocess
 
 hostname = socket.gethostname()
 local_ip = socket.gethostbyname(hostname)
 
-HOST = local_ip     # Standard loopback interface address (localhost)
+HOST = "127.0.0.1"     # replace with local_ip if you do not want to use your localhost, but your real target's IP
 print(HOST)
-PORT = 65432        # Port to listen on (non-privileged ports are > 1023)
+PORT = 65432
 
 def options(command):
     # file and directory listing

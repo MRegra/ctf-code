@@ -81,9 +81,9 @@ ____________________________________
 **Main URL:** https://overthewire.org/wargames/bandit/bandit4.html
 
 **Writeup:**  
-As in the previous one we have to use the same command as in the previous challenge, but this time the user is bandit2 and the password is the flag of the previous challenge. The ssh command is:
+As in the previous one we have to use the same command as in the previous challenge, but this time the user is bandit3 and the password is the flag of the previous challenge. The ssh command is:
 
-    ssh bandit2@bandit.labs.overthewire.org -p 2220 
+    ssh bandit3@bandit.labs.overthewire.org -p 2220
 
 After putting the flag from the previous challenge as the password we are in!
 
@@ -122,9 +122,9 @@ ____________________________________
 **Main URL:** https://overthewire.org/wargames/bandit/bandit5.html
 
 **Writeup:**  
-As in the previous one we have to use the same command as in the previous challenge, but this time the user is bandit2 and the password is the flag of the previous challenge. The ssh command is:
+As in the previous one we have to use the same command as in the previous challenge, but this time the user is bandit4 and the password is the flag of the previous challenge. The ssh command is:
 
-    ssh bandit2@bandit.labs.overthewire.org -p 2220 
+    ssh bandit4@bandit.labs.overthewire.org -p 2220
 
 After putting the flag from the previous challenge as the password we are in!
 
@@ -164,3 +164,42 @@ And the flag is:
 **Flag:** koReBOKuIDDepwhWk7jZC0RTdopnAYKh
 
 ____________________________________
+
+## Level: bandit5 -> bandit6
+
+**Main URL:** https://overthewire.org/wargames/bandit/bandit6.html
+
+**Writeup:**
+As in the previous one we have to use the same command as in the previous challenge, but this time the user is bandit5 and the password is the flag of the previous challenge. The ssh command is:
+
+    ssh bandit5@bandit.labs.overthewire.org -p 2220
+
+After putting the flag from the previous challenge as the password we are in!
+
+In this one we have to find the file that is human readable, so ASCII, or something like that, that has 1033 bytes in size and that is not executable.
+After entering the machine we can see the home directory contents by using the ls command, we are presented with just one folder, inhere, after moving inside it, by using cd inhere, we can see the inhere directory contents once again with ls.
+
+This time, we get the following:
+
+    bandit5@bandit:~/inhere$ ls
+    maybehere00  maybehere03  maybehere06  maybehere09  maybehere12  maybehere15  maybehere18
+    maybehere01  maybehere04  maybehere07  maybehere10  maybehere13  maybehere16  maybehere19
+    maybehere02  maybehere05  maybehere08  maybehere11  maybehere14  maybehere17
+
+We can go one directory at a time and then analyze the contents of each directory but that takes alot time! We can, instead, leverage the linux terminal tools that we have at our disposal, in particular the file and find commands.
+
+What we can do is to simply see the file is of the type ASCII, and, if so, if the size is 1033 bytes, and if so, if it is not executable. The final command:
+
+    bandit4@bandit:~/inhere$ file ./* | grep "ASCII" | find . -type f -size 1033c ! -executable
+    ./maybehere07/.file2
+
+So it seems that the file ./maybehere07/.file2 has the flag because it is the only one, now, what is left to do is simply to cat its contets, as such:
+
+    bandit4@bandit:~/inhere$ cat ./maybehere07/.file2
+
+And the flag is:
+
+**Flag:** DXjZPULLxYr17uwoI01bNLQbtFemEgo7
+
+____________________________________
+

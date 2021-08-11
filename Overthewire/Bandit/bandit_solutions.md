@@ -1,10 +1,13 @@
 # Solutions of Overthewire Bandit Challenges
 
+_______________________________________
+
 Hello!! Welcome to my Github Overthewire Bandit writeups.
 
 Please, before reading this checkout my blog: https://mregraoncyber.com/category/overthewire/bandit/
 
 In my blog you have these solutions and a lot more! Hope you enjoy!
+_______________________________________
 
 ## Level: bandit0 -> bandit1
 

@@ -190,12 +190,12 @@ We can go one directory at a time and then analyze the contents of each director
 
 What we can do is to simply see the file is of the type ASCII, and, if so, if the size is 1033 bytes, and if so, if it is not executable. The final command:
 
-    bandit4@bandit:~/inhere$ file ./* | grep "ASCII" | find . -type f -size 1033c ! -executable
+    bandit5@bandit:~/inhere$ file ./* | grep "ASCII" | find . -type f -size 1033c ! -executable
     ./maybehere07/.file2
 
 So it seems that the file ./maybehere07/.file2 has the flag because it is the only one, now, what is left to do is simply to cat its contets, as such:
 
-    bandit4@bandit:~/inhere$ cat ./maybehere07/.file2
+    bandit5@bandit:~/inhere$ cat ./maybehere07/.file2
 
 And the flag is:
 
@@ -203,3 +203,282 @@ And the flag is:
 
 ____________________________________
 
+## Level: bandit6 -> bandit7
+
+**Main URL:** https://overthewire.org/wargames/bandit/bandit7.html
+
+**Writeup:**
+As in the previous one we have to use the same command as in the previous challenge, but this time the user is bandit6 and the password is the flag of the previous challenge. The ssh command is:
+
+    ssh bandit6@bandit.labs.overthewire.org -p 2220
+
+After putting the flag from the previous challenge as the password we are in!
+
+In this one we have to find the file that is owned by user bandit7, owned by group bandit6 and with 33 bytes in size.
+After entering the machine we can see the home directory contents by using the ls command, we are presented with nothin, there is no directory or interesting file in the home directory.
+
+We can analyze the contents of the entire machine but that takes alot time! We can, instead, leverage the linux terminal tools that we have at our disposal, in particular the find command.
+
+We can simply use a combination of commands, as such:
+
+    bandit6@bandit:~/ find /* -type f -group bandit6 -user bandit7 -size 33c 2>/dev/null
+    /var/lib/dpkg/info/bandit7.password
+
+So it seems that the file ./maybehere07/.file2 has the flag because it is the only one, now, what is left to do is simply to cat its contets, as such:
+
+    bandit6@bandit:~$ cat /var/lib/dpkg/info/bandit7.password
+
+And the flag is:
+
+**Flag:** HKBPTKQnIay4Fw76bEy8PVxKEDQRKTzs
+
+____________________________________
+
+## Level: bandit7 -> bandit8
+
+**Main URL:** https://overthewire.org/wargames/bandit/bandit8.html
+
+**Writeup:**
+As in the previous one we have to use the same command as in the previous challenge, but this time the user is bandit7 and the password is the flag of the previous challenge. The ssh command is:
+
+    ssh bandit7@bandit.labs.overthewire.org -p 2220
+
+After putting the flag from the previous challenge as the password we are in!
+
+In this one we have to find the word millionth in the file data.txt.
+After entering the machine we can see the home directory contents by using the ls command, we are presented with the file data.txt.
+
+This challenge turned out to be quite simple, I simply did:
+
+    bandit7@bandit:~$ cat data.txt | grep millionth
+
+And the flag is:
+
+**Flag:** cvX2JJa4CFALtqS87jk27qwqGhBM9plV
+
+____________________________________
+
+## Level: bandit8 -> bandit9
+
+**Main URL:** https://overthewire.org/wargames/bandit/bandit9.html
+
+**Writeup:**
+As in the previous one we have to use the same command as in the previous challenge, but this time the user is bandit8 and the password is the flag of the previous challenge. The ssh command is:
+
+    ssh bandit8@bandit.labs.overthewire.org -p 2220
+
+After putting the flag from the previous challenge as the password we are in!
+
+In this one we have the following description:
+
+    "The password for the next level is stored in the file data.txt and is the only line of text that occurs only once"
+
+A funny challenge I got to say! Well, after some online search I found that if you use the uniq command you can count the number of ocorrences of a line in a file. However, if it is not sorted it will not work. So first, we must sort the file and pipe the content into the uniq command with the -u flag (-u flag for unique occurrence), as such:
+
+    bandit8@bandit:~$ sort data.txt | uniq -u
+
+And the flag is:
+
+**Flag:** UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR
+
+____________________________________
+
+## Level: bandit9 -> bandit10
+
+**Main URL:** https://overthewire.org/wargames/bandit/bandit10.html
+
+**Writeup:**
+As in the previous one we have to use the same command as in the previous challenge, but this time the user is bandit9 and the password is the flag of the previous challenge. The ssh command is:
+
+    ssh bandit9@bandit.labs.overthewire.org -p 2220
+
+After putting the flag from the previous challenge as the password we are in!
+
+In this one we have the following description:
+
+    "The password for the next level is stored in the file data.txt in one of the few human-readable strings, preceded by several ‘=’ characters."
+
+Weird challenge! Well, after some online search I found that if you use the strings command with on the file and then piped the output int the grep with two equal signs we would get the flag. The final command:
+
+    bandit9@bandit:~$ strings data.txt | grep ==
+
+And the flag is:
+
+**Flag:** truKLdjsbJ5g7yyJ2X2R0o3a5HQJFuLk
+
+____________________________________
+
+## Level: bandit10 -> bandit11
+
+**Main URL:** https://overthewire.org/wargames/bandit/bandit11.html
+
+**Writeup:**
+As in the previous one we have to use the same command as in the previous challenge, but this time the user is bandit10 and the password is the flag of the previous challenge. The ssh command is:
+
+    ssh bandit10@bandit.labs.overthewire.org -p 2220
+
+After putting the flag from the previous challenge as the password we are in!
+
+In this one we have the following description:
+
+    "The password for the next level is stored in the file data.txt, which contains base64 encoded data"
+
+In this one we have yet again the data.txt file. Inside it we can see a base64 string. We know it is base64 because it ends with two equal signs (which is common for base 64 enconding).
+To decode it and get the flag, we can cat the contents of the file and piped them into the command base64 --decode, as such:
+
+    bandit10@bandit:~$ cat data.txt | base64 --decode
+
+And the flag is:
+
+**Flag:** IFukwKGsFW8MOq3IRFqrxE1hxTNEbUPR
+
+____________________________________
+
+## Level: bandit11 -> bandit12
+
+**Main URL:** https://overthewire.org/wargames/bandit/bandit12.html
+
+**Writeup:**
+As in the previous one we have to use the same command as in the previous challenge, but this time the user is bandit11 and the password is the flag of the previous challenge. The ssh command is:
+
+    ssh bandit11@bandit.labs.overthewire.org -p 2220
+
+After putting the flag from the previous challenge as the password we are in!
+
+In this one we have the following description:
+
+    "The password for the next level is stored in the file data.txt, where all lowercase (a-z) and uppercase (A-Z) letters have been rotated by 13 positions"
+
+In this one we have yet again the data.txt file. Inside it we can see a weird string. We know it is rotated by 13 positions. This is a form of "encryption" known as ROT13. After googling for a while I found the regex combination that allows me to reverse this. The final command I used was:
+
+    bandit11@bandit:~$ cat data.txt | tr 'A-Za-z' 'N-ZA-Mn-za-m'
+
+And the flag is:
+
+**Flag:** 5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu
+
+____________________________________
+
+## Level: bandit12 -> bandit13
+
+**Main URL:** https://overthewire.org/wargames/bandit/bandit13.html
+
+**Writeup:**
+As in the previous one we have to use the same command as in the previous challenge, but this time the user is bandit12 and the password is the flag of the previous challenge. The ssh command is:
+
+    ssh bandit12@bandit.labs.overthewire.org -p 2220
+
+After putting the flag from the previous challenge as the password we are in!
+
+In this one we have the following description:
+
+    "The password for the next level is stored in the file data.txt, which is a hexdump of a file that has been repeatedly compressed."
+
+This was a different challenge. First time I worked with compreesed files this way, and with different compressed programs, well a funny way overall.
+For starters I did as suggested and created a "working directory" under /tmp by running the command:
+
+    bandit12@bandit:~$ mkdir /tmp/working_dir
+
+Then I copied the data.txt file, that is in the home directory, into this new directory I just created by running the command:
+
+    bandit12@bandit:~$ cp data.txt /tmp/working_dir
+
+And finaly I moved to that file:
+
+    bandit12@bandit:~$ cd /tmp/working_dir
+
+Now we have everything to start cracking!
+First we have to get the file from the hexdump, we know from the description that data.txt is the hexdump of a file... To get the file we can run the command:
+
+    bandit12@bandit:/tmp/working_dir$ xxd -r data.txt data
+
+Now we have a file called data. Now we need to figure out the correct compression used, to do so, we simply have to run the command:
+
+    bandit12@bandit:/tmp/working_dir$ file data
+    data: gzip compressed data, was "data2.bin", last modified: Thu May  7 18:14:30 2020, max compression, from Unix
+
+And then:
+
+    bandit12@bandit:/tmp/working_dir$ mv data data.gz && gzip -dk data.gz && ls
+    data  data.gz  data.txt
+
+We have a new data file!! Let's see the file type of this one:
+
+    bandit12@bandit:/tmp/working_dir$ file data
+    data: bzip2 compressed data, block size = 900k
+
+So this time is bzip2, after searching online I discovered that the extension is bz2 and to open it we can do:
+
+    bandit12@bandit:/tmp/working_dir$ mv data data.bz2 && bzip2 -dk data.bz2 && ls
+    data  data.bz2  data.gz  data.txt
+
+And now we have to repeate the process...
+
+    bandit12@bandit:/tmp/working_dir$ mv data data.gz && gzip -dk data.gz && ls
+    data  data.bz2  data.gz  data.txt
+
+A new data file poped out:
+
+    bandit12@bandit:/tmp/working_dir$ file data
+    data: POSIX tar archive (GNU)
+
+This time is a POSIX tar archive (GNU), after searching online I was able to dicover that the extension is tar.gz and to open it:
+
+    bandit12@bandit:/tmp/working_dir$ mv data data.tar.gz && tar -xvf data.tar.gz && ls
+    data5.bin
+    data5.bin  data.bz2  data.gz  data.tar.gz  data.txt
+
+We now have a data5.bin!!
+
+    bandit12@bandit:/tmp/working_dir$ file data5.bin
+    data5.bin: POSIX tar archive (GNU)
+
+Next step...
+
+    bandit12@bandit:/tmp/working_dir$ mv data5.bin data.tar.gz && tar -xvf data.tar.gz && ls
+    data6.bin
+    data6.bin  data.bz2  data.gz  data.tar.gz  data.txt
+
+Next we have:
+
+    bandit12@bandit:/tmp/working_dir$ file data6.bin
+    data6.bin: bzip2 compressed data, block size = 900k
+
+Next we have:
+
+    bandit12@bandit:/tmp/working_dir$ mv data6.bin data.bz2 && bzip2 -dk data.bz2 && ls
+    data  data.bz2  data.gz  data.tar.gz  data.txt
+
+Next:
+
+    bandit12@bandit:/tmp/working_dir$ file data
+    data: POSIX tar archive (GNU)
+
+Next:
+
+    bandit12@bandit:/tmp/working_dir$ mv data data.tar.gz && tar -xvf data.tar.gz && ls
+    data8.bin
+    data8.bin  data.bz2  data.gz  data.tar.gz  data.txt
+
+Next:
+
+    bandit12@bandit:/tmp/working_dir$ file data8.bin
+    data8.bin: gzip compressed data, was "data9.bin", last modified: Thu May  7 18:14:30 2020, max compression, from Unix
+
+Next:
+
+    bandit12@bandit:/tmp/working_dir$ mv data8.bin data.gz && gzip -dk data.gz && ls
+    data  data.bz2  data.gz  data.tar.gz  data.txt
+
+Next:
+
+    bandit12@bandit:/tmp/working_dir$ file data
+    data: ASCII text
+    bandit12@bandit:/tmp/working_dir$ cat data
+    The password is 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
+
+And the flag is:
+
+**Flag:** 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
+
+____________________________________

@@ -475,10 +475,94 @@ Next:
     bandit12@bandit:/tmp/working_dir$ file data
     data: ASCII text
     bandit12@bandit:/tmp/working_dir$ cat data
-    The password is 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
+    The password is ***************************
 
 And the flag is:
 
 **Flag:** 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
+
+____________________________________
+
+## Level: bandit13 -> bandit14
+
+**Main URL:** https://overthewire.org/wargames/bandit/bandit14.html
+
+**Writeup:**
+As in the previous one we have to use the same command as in the previous challenge, but this time the user is bandit11 and the password is the flag of the previous challenge. The ssh command is:
+
+    ssh bandit13@bandit.labs.overthewire.org -p 2220
+
+After putting the flag from the previous challenge as the password we are in!
+
+In this one we have the following description:
+
+    "The password for the next level is stored in /etc/bandit_pass/bandit14 and can only be read by user bandit14. For this level, you don’t get the next password, but you get a private SSH key that can be used to log into the next level."
+
+Ok this is a interesting one. It looks like it is different from the rest. No password, instead a private SSH key? In the home directory after listing the contents I found a file: sshkey.private
+I decided to cat its contents and I saw a private key. This is what we need to access the next level!!
+
+I copied its contents to a file on my machine. Well to make sure this is correct and that this is the way to access the next level I had to try. To do so I searched online for a while. I searched for "How to access ssh with private key" and I found a few links with useful information. And in the end I decided to try this set of commands:
+
+First I need to give full writing and reading permissions to the file where I stored the private key, as such:
+
+    mregra on Cyber:~$ chmod 600 sshkey.private
+
+Now we can run the ssh command:
+
+    mregra on Cyber:~$ ssh -i sshkey.private bandit14@bandit.labs.overthewire.org -p 2220
+
+Note: You need to be in the folder where sshkey.private is stored, otherwise you may need to provide the full path.
+
+And with this we got access to the next level!!
+
+The flag to the level is:
+
+**Flag:** 4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e
+
+____________________________________
+
+## Level: bandit14 -> bandit15
+
+**Main URL:** https://overthewire.org/wargames/bandit/bandit15.html
+
+**Writeup:**
+The access to this challenge was done in the previous challenge, take a look above.
+
+In this one we have the following description:
+
+    "The password for the next level can be retrieved by submitting the password of the current level to port 30000 on localhost."
+
+To discover the protocol running on that port and which other port was open I ran the command:
+
+    bandit14@bandit:~$ nmap 127.0.0.1
+    Starting Nmap 7.40 ( https://nmap.org ) at 2021-08-13 09:09 CEST
+    Nmap scan report for localhost (127.0.0.1)
+    Host is up (0.00034s latency).
+    Not shown: 998 closed ports
+    PORT      STATE SERVICE
+    22/tcp    open  ssh
+    30000/tcp open  ndmps
+
+    Nmap done: 1 IP address (1 host up) scanned in 0.08 seconds
+
+Ok se we have a port running the service ndmps over tcp. I decided to try to use netcat to get the flag, as such:
+
+    bandit14@bandit:~$ nc localhost 30000
+
+After this I simply clicked enter and got this error:
+
+    Wrong! Please enter the correct current password
+
+Ok now we know we have to insert the password for this level, that according to the previous one is on the file /etc/bandit_pass/bandit14. I tried again and got the flag.
+
+    bandit14@bandit:~$ nc localhost 30000
+    4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e                  <- This is the flag for the current level
+    Correct!
+    BfMYroe26WYalil77FoDi9qh59eK5xNr
+
+
+And the flag is:
+
+**Flag:** BfMYroe26WYalil77FoDi9qh59eK5xNr
 
 ____________________________________

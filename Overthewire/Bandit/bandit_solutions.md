@@ -197,7 +197,7 @@ We can go one directory at a time and then analyze the contents of each director
 
 What we can do is to simply see the file is of the type ASCII, and, if so, if the size is 1033 bytes, and if so, if it is not executable. The final command:
 
-    bandit5@bandit:~/inhere$ file ./* | grep "ASCII" | find . -type f -size 1033c ! -executable
+    bandit5@bandit:~/inhere$ find . -type f -size 1033c ! -executable
     ./maybehere07/.file2
 
 So it seems that the file ./maybehere07/.file2 has the flag because it is the only one, now, what is left to do is simply to cat its contets, as such:
@@ -495,7 +495,7 @@ ____________________________________
 **Main URL:** https://overthewire.org/wargames/bandit/bandit14.html
 
 **Writeup:**
-As in the previous one we have to use the same command as in the previous challenge, but this time the user is bandit11 and the password is the flag of the previous challenge. The ssh command is:
+As in the previous one we have to use the same command as in the previous challenge, but this time the user is bandit13 and the password is the flag of the previous challenge. The ssh command is:
 
     ssh bandit13@bandit.labs.overthewire.org -p 2220
 
@@ -571,5 +571,242 @@ Ok now we know we have to insert the password for this level, that according to 
 And the flag is:
 
 **Flag:** BfMYroe26WYalil77FoDi9qh59eK5xNr
+
+____________________________________
+
+## Level: bandit15 -> bandit16
+
+**Main URL:** https://overthewire.org/wargames/bandit/bandit16.html
+
+**Writeup:**
+As in the previous challenges we have to use the same command:
+
+    ssh bandit15@bandit.labs.overthewire.org -p 2220
+
+After putting the flag from the previous challenge as the password we are in!
+
+In this one we have the following description:
+
+    "The password for the next level can be retrieved by submitting the password of the current level to port 30001 on localhost using SSL encryption.
+
+    Helpful note: Getting “HEARTBEATING” and “Read R BLOCK”? Use -ign_eof and read the “CONNECTED COMMANDS” section in the manpage. Next to ‘R’ and ‘Q’, the ‘B’ command also works in this version of that command…"
+
+Ok this is a interesting one. We have to connect using SSL encryption. Well, after some search I found that nmap as a command which is ncat that allows us to specify the encryption protocol as ssl, the host and the port, as such:
+
+    bandit15@bandit:~$ ncat --ssl 127.0.0.1 30001
+
+Afterwards I simply inserted the level's password and got the following:
+
+    bandit15@bandit:~$ ncat --ssl 127.0.0.1 30001
+    BfMYroe26WYalil77FoDi9qh59eK5xNr                  <- This is the flag for the current level
+    Correct!
+    cluFn7wTiGryunymYOu4RcffSxQluehd
+
+The flag to the level is:
+
+**Flag:** cluFn7wTiGryunymYOu4RcffSxQluehd
+
+____________________________________
+
+
+## Level: bandit16 -> bandit17
+
+**Main URL:** https://overthewire.org/wargames/bandit/bandit17.html
+
+**Writeup:**
+As in the previous challenges we have to use the same command:
+
+    ssh bandit16@bandit.labs.overthewire.org -p 2220
+
+After putting the flag from the previous challenge as the password we are in!
+
+In this one we have the following description:
+
+    "The credentials for the next level can be retrieved by submitting the password of the current level to a port on localhost in the range 31000 to 32000. First find out which of these ports have a server listening on them. Then find out which of those speak SSL and which don’t. There is only 1 server that will give the next credentials, the others will simply send back to you whatever you send to it."
+
+Ok this is a interesting one. We first need to find all open ports between 31000 and 32000, to do so I used nmap as such:
+
+    bandit16@bandit:~$ nmap -p 31000-32000 127.0.0.1
+
+    Starting Nmap 7.40 ( https://nmap.org ) at 2021-08-18 11:43 CEST
+    Nmap scan report for localhost (127.0.0.1)
+    Host is up (0.00022s latency).
+    Not shown: 996 closed ports
+    PORT      STATE SERVICE
+    31046/tcp open  unknown
+    31518/tcp open  unknown
+    31691/tcp open  unknown
+    31790/tcp open  unknown
+    31960/tcp open  unknown
+
+    Nmap done: 1 IP address (1 host up) scanned in 0.09 seconds
+    bandit16@bandit:~$
+
+It seems that ports 31046, 31518, 31691, 31790 and 31960 are open, now we need to know which of those speak SSL. To know if they speak SSL I used the openssl command.
+
+    bandit16@bandit:~$ openssl s_client -connect 127.0.0.1:port         <- Use each port to test.
+
+Some of the ports did not allowed me to put some input, so I excluded those, however, 2 of them did allow input, the port 31518 and the port 31790. After trying both I got an SSH private key.
+
+The flag to the level is and SSH private key.
+
+____________________________________
+
+
+## Level: bandit17 -> bandit18
+
+**Main URL:** https://overthewire.org/wargames/bandit/bandit18.html
+
+**Writeup:**
+To access this challenge I used a different command than the previous one, first this time we have to use a private key, not a password. In order to use the private key (that w found in the previous challenge) we need to give the file certain permissions, as such:
+
+
+    mregra on Cyber:~$ chmod 600 sshkey.private
+
+Now we can run the ssh command:
+
+    mregra on Cyber:~$ ssh -i sshkey.private bandit17@bandit.labs.overthewire.org -p 2220
+
+And we are in!!
+
+In this one we have the following description:
+
+    "There are 2 files in the homedirectory: passwords.old and passwords.new. The password for the next level is in passwords.new and is the only line that has been changed between passwords.old and passwords.new
+
+    NOTE: if you have solved this level and see ‘Byebye!’ when trying to log into bandit18, this is related to the next level, bandit19"
+
+This challenged turned out to be quite simple.
+What I did was simply run the diff command as such:
+
+    bandit17@bandit:~$ diff passwords.old passwords.new
+    42c42
+    < w0Yfolrc5bwjS4qw5mq1nnQi6mF03bii
+    ---
+    > kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
+    bandit17@bandit:~$
+
+The flag to the level is:
+
+**Flag:** kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
+
+____________________________________
+
+
+## Level: bandit18 -> bandit19
+
+**Main URL:** https://overthewire.org/wargames/bandit/bandit19.html
+
+**Writeup:**
+As in the previous challenges we have to use the same command:
+
+    ssh bandit18@bandit.labs.overthewire.org -p 2220
+
+After putting the flag from the previous challenge as the password we are in... Oh wait! No we got a:
+
+    Byebye !
+    Connection to bandit.labs.overthewire.org closed.
+
+Let's analyze the challenge description, it might help. In this one we have the following description:
+
+    "The password for the next level is stored in a file readme in the homedirectory. Unfortunately, someone has modified .bashrc to log you out when you log in with SSH."
+
+Ok, so we now know that we will automatically get logged out, but we can run commands on the machine using ssh, I first tried the following:
+
+    mregra on Cyber:~$ ssh bandit18@bandit.labs.overthewire.org -p 2220 ls
+    This is a OverTheWire game server. More information on http://www.overthewire.org/wargames
+
+    bandit18@bandit.labs.overthewire.org's password:
+    readme
+    mregra on Cyber:~$
+
+We have a file readme in the home directory. We can try to cat its contents, according to the description, the flag is inside! So I simply ran the command:
+
+    mregra on Cyber:~$ ssh bandit18@bandit.labs.overthewire.org -p 2220 cat readme
+    This is a OverTheWire game server. More information on http://www.overthewire.org/wargames
+
+    bandit18@bandit.labs.overthewire.org's password:
+    IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x
+    mregra on Cyber:~$
+
+The flag to the level is:
+
+**Flag:** IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x
+
+____________________________________
+
+
+## Level: bandit19 -> bandit20
+
+**Main URL:** https://overthewire.org/wargames/bandit/bandit20.html
+
+**Writeup:**
+As in the previous challenges we have to use the same command:
+
+    ssh bandit19@bandit.labs.overthewire.org -p 2220
+
+After putting the flag from the previous challenge as the password we are in!
+
+In this one we have the following description:
+
+    "To gain access to the next level, you should use the setuid binary in the homedirectory. Execute it without arguments to find out how to use it. The password for this level can be found in the usual place (/etc/bandit_pass), after you have used the setuid binary."
+
+After some time I noticed that the bandit20-do executable is running commands as bandit20.
+To read the password for bandit19 what I did was simply cat the contents of /etc/bandit_pass/bandit20 with the executable, as such:
+
+    bandit19@bandit:~$ ./bandit20-do cat /etc/bandit_pass/bandit20
+    GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+
+The flag to the level is:
+
+**Flag:** GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+
+____________________________________
+
+
+## Level: bandit20 -> bandit21
+
+**Main URL:** https://overthewire.org/wargames/bandit/bandit21.html
+
+**Writeup:**
+As in the previous challenges we have to use the same command:
+
+    ssh bandit20@bandit.labs.overthewire.org -p 2220
+
+After putting the flag from the previous challenge as the password we are in!
+
+In this one we have the following description:
+
+    "There is a setuid binary in the homedirectory that does the following: it makes a connection to localhost on the port you specify as a commandline argument. It then reads a line of text from the connection and compares it to the password in the previous level (bandit20). If the password is correct, it will transmit the password for the next level (bandit21).
+
+    NOTE: Try connecting to your own network daemon to see if it works as you think"
+
+We have executable that connects to a running server, and once it receives from the server the password for the present level, checks if it is correct and if so, returns the password for the next level.
+It makes sense and it seems simple. What we have to do is simply to create a netcat server running on localhost in a port of our choice. To do so I ran the following command:
+
+    bandit20@bandit:~$ nc -l -p 4444
+
+Then I went to another terminal, create another ssh connection to the machine and I used the executable on the port 4444, as such:
+
+    bandit20@bandit:~$ ./suconnect 4444
+
+Then I simply went back to the server I created and I entered the password for the present level, and this was the result:
+
+In the server terminal:
+
+    bandit20@bandit:~$ nc -l -p 4444
+    GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+    gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
+    bandit20@bandit:~$
+
+In the executable terminal:
+
+    bandit20@bandit:~$ ./suconnect 4444
+    Read: GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+    Password matches, sending next password
+    bandit20@bandit:~$
+
+The flag to the level is:
+
+**Flag:** gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
 
 ____________________________________

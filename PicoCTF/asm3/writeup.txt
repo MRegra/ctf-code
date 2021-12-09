@@ -1,0 +1,42 @@
+Input: 0xba6c5a02,0xd101e3dd,0xbb86a173
+Registers: eax, ebx, ecx, edx, esi, edi, ebp, esp
+
+asm3:
+        push   ebp
+        mov    ebp,esp
+        xor    eax,eax
+        mov    ah,BYTE PTR [ebp+0xb]
+        shl    ax,0x10
+        sub    al,BYTE PTR [ebp+0xd]
+        add    ah,BYTE PTR [ebp+0xc]
+        xor    ax,WORD PTR [ebp+0x12]
+        nop
+        pop    ebp
+        ret
+
+
+STACK
+
+eax = 00000000 00000000 00000000 00000000
+
+xor eax,eax			-> 0x0000 ^ 0x0000 = 0x0000      -> 0x0000
+mov ah,ebp+0xb		-> ah = 0x00 ebp+0xb = ba        -> 0xba00
+shl ax,0x10			-> ax = 0xba00 shift of 12       -> 0x0000
+sub al,ebp+0xd		-> al = 0x00 ebp+0xd = e3        -> 0x001d
+add ah,ebp+0xc		-> ah = 0xe8 ebp+0xc = dd        -> 0xdd1d
+xor ax,ebp+0x12		-> 11001000 10011111             -> 0xc565
+
+
+eax = 00 01 01 01			-> 20 + d1
+
+------------------------
+|   0x10  | 0xbb86a173 |
+------------------------
+|   0xc	  | 0xd101e3dd |
+------------------------
+|   0x8	  | 0xba6c5a02 |	-> ba 6c 5a 02
+------------------------
+|   0x0	  |     ret    |
+------------------------
+|   0x0	  |     ebp    |
+------------------------

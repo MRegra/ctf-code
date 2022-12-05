@@ -25,6 +25,7 @@ Once we put in the response:
 So we cannot do this manually.
 I created a script to solve this operations.
 One has to consider the mathematical rules behind this.
+
     - Multiplication is performed first
 
 Script:

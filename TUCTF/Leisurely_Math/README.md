@@ -29,6 +29,5 @@ One has to consider the mathematical rules behind this.
 
 Script:
 
-
-
+[My Solution Script](./leisurely_math.py)
 

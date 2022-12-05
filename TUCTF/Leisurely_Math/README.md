@@ -31,3 +31,4 @@ Script:
 
 [My Solution Script](./leisurely_math.py)
 
+Notes: There is, for sure, a more elegant and better code.

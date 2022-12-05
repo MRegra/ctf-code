@@ -25,10 +25,11 @@ Once we put in the response:
 So we cannot do this manually.
 I created a script to solve this operations.
 One has to consider the mathematical rules behind this.
+
     - Multiplication is performed first
 
 Script:
 
+[My Solution Script](./leisurely_math.py)
 
-
-
+Notes: There is, for sure, a more elegant and better code.

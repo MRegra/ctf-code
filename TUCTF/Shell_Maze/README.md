@@ -35,6 +35,7 @@ So we cannot do this manually.
 
 I created a script to solve the challenges as they come:
 
+[My Solution Script](./shell_maze.py)
 
 
 

@@ -4,6 +4,7 @@ Link: [https://tuctf.com/challenges](https://tuctf.com/challenges)
 
 ## My solves:
 
-[Leisurely Math](./Leisurely_Math)
-[Shell Math](./Shell_Maze)
+* [Leisurely Math](./Leisurely_Math)
+
+* [Shell Math](./Shell_Maze)
 

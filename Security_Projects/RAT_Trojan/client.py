@@ -7,9 +7,14 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT))
     while(True):
         msg = input("Your command: ")
-        s.sendall(str.encode(msg))
-        if(msg == "exit"):
-            break
-        data = s.recv(2048)
-        print('Received:\n', data.decode())
-
+        if msg != "":   # handling empty inputs which would interrupt the connection.
+            s.sendall(str.encode(msg))
+            if(msg == "exit"):
+                break
+            data = s.recv(2048)
+            if data:
+                print('Received:\n', data.decode())
+            else:
+                continue
+        else:
+            print("Please enter a command... \n")

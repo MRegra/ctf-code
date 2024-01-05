@@ -1,5 +1,6 @@
 import socket
 import subprocess
+import os
 
 hostname = socket.gethostname()
 local_ip = socket.gethostbyname(hostname)
@@ -10,10 +11,15 @@ PORT = 65432
 
 def options(command):
     # file and directory listing
-    msg = "Command output:\n"
-    msg += subprocess.check_output(command, shell=True, universal_newlines=True)
-    print(msg)
-    return msg
+    try: # handling invalid commands which will result in raising an error           
+        os.system(command) # to be able to run commands which wouldn't provide valid output (e.g. "color a" or cls)
+        msg = "Command output:\n"
+        msg += subprocess.check_output(command, shell=True, universal_newlines=True)
+        print(msg)
+        return msg
+    except:
+        msg = "Failed to run"
+        return msg
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.bind((HOST, PORT))
@@ -26,6 +32,5 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             msg = data.decode()
             output = options(msg)
             if(msg == "exit"):
-                break  
+                break                   
             conn.sendall(str.encode(output))
-
